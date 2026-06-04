@@ -8,6 +8,33 @@ st.set_page_config(
     layout="wide"
 )
 
+USUARIO = "monitoramento"
+SENHA = "Shopee2026"
+
+if "logado" not in st.session_state:
+    st.session_state.logado = False
+
+if not st.session_state.logado:
+    st.title("🔐 Login")
+
+    usuario = st.text_input("Usuário")
+    senha = st.text_input("Senha", type="password")
+
+    if st.button("Entrar"):
+        if usuario == USUARIO and senha == SENHA:
+            st.session_state.logado = True
+            st.rerun()
+        else:
+            st.error("Usuário ou senha inválidos")
+
+    st.stop()
+
+st.set_page_config(
+    page_title="MAPA OPERACIONAL",
+    page_icon="🗺️",
+    layout="wide"
+)
+
 URL_MONITORAMENTO = "https://docs.google.com/spreadsheets/d/12sUgHfdYhBB7X59IfoWNM7zckhH7oqZKxbV62cBPbX8/export?format=csv&gid=262199424"
 URL_KM = "https://docs.google.com/spreadsheets/d/1Py0PjWt5ywfY5IaRraFRd2LTHWLXDk-XKF0v7SfgxVA/export?format=csv&gid=0"
 URL_RASTER = "https://docs.google.com/spreadsheets/d/1_a0GbZj33z5u-tim_lSr__u1RCczfHgk_N6dX_NMfLY/export?format=csv&gid=0"
