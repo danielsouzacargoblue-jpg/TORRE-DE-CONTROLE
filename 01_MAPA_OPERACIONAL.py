@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 st.set_page_config(
     page_title="MAPA OPERACIONAL",
@@ -15,6 +16,7 @@ if "logado" not in st.session_state:
     st.session_state.logado = False
 
 if not st.session_state.logado:
+
     st.title("🔐 Login")
 
     usuario = st.text_input("Usuário")
@@ -29,27 +31,34 @@ if not st.session_state.logado:
 
     st.stop()
 
-st.set_page_config(
-    page_title="MAPA OPERACIONAL",
-    page_icon="🗺️",
-    layout="wide"
-)
-
 URL_MONITORAMENTO = "https://docs.google.com/spreadsheets/d/12sUgHfdYhBB7X59IfoWNM7zckhH7oqZKxbV62cBPbX8/export?format=csv&gid=262199424"
 URL_KM = "https://docs.google.com/spreadsheets/d/1Py0PjWt5ywfY5IaRraFRd2LTHWLXDk-XKF0v7SfgxVA/export?format=csv&gid=0"
 URL_RASTER = "https://docs.google.com/spreadsheets/d/1_a0GbZj33z5u-tim_lSr__u1RCczfHgk_N6dX_NMfLY/export?format=csv&gid=0"
 
 st.markdown("""
 <style>
-.stApp { background-color: #010D24; }
-h1, h2, h3, p, span, label { color: white !important; }
-.block-container { padding-top: 1rem; }
+.stApp {
+    background-color: #010D24;
+}
+
+h1, h2, h3, p, span, label {
+    color: white !important;
+}
+
+.block-container {
+    padding-top: 1rem;
+}
 </style>
 """, unsafe_allow_html=True)
 
 st.title("🗺️ MAPA OPERACIONAL")
 st.caption("Monitoramento")
-st.info(f"Última atualização: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+
+agora = datetime.now(ZoneInfo("America/Sao_Paulo"))
+
+st.info(
+    f"Última atualização: {agora.strftime('%d/%m/%Y %H:%M:%S')}"
+)
 
 def limpar_placa(valor):
     if pd.isna(valor):
