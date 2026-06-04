@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 from streamlit_autorefresh import st_autorefresh
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 st.set_page_config(
     page_title="TORRE DE MONITORAMENTO - SHOPEE",
@@ -85,10 +86,6 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
-# ===============================
-# CABEÇALHO
-# ===============================
-
 st.markdown("""
 <div style="
 background: linear-gradient(90deg,#08152B,#0B2447);
@@ -130,13 +127,9 @@ color:#38BDF8;
 font-weight:600;
 margin-bottom:15px;
 ">
-🕒 Última atualização: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
+🕒 Última atualização: {datetime.now(ZoneInfo("America/Sao_Paulo")).strftime('%d/%m/%Y %H:%M:%S')}
 </div>
 """, unsafe_allow_html=True)
-
-# ===============================
-# BASE PRINCIPAL
-# ===============================
 
 url = "https://docs.google.com/spreadsheets/d/12sUgHfdYhBB7X59IfoWNM7zckhH7oqZKxbV62cBPbX8/export?format=csv&gid=262199424"
 
@@ -171,10 +164,6 @@ viagens_sem_sm = df[
 
 qtd_viagens_sem_sm = len(viagens_sem_sm)
 
-# ===============================
-# BASE ROTAS CRÍTICAS
-# ===============================
-
 url_rotas = "https://docs.google.com/spreadsheets/d/1uVVVgnD-bBS7OGbJ9XVp5tXwVshU_5jloJS_t2q7rrU/export?format=csv&gid=0"
 
 df_rotas = pd.read_csv(url_rotas)
@@ -194,10 +183,6 @@ resumo_rotas = pd.DataFrame({
         (status_rotas == "NO PRAZO").sum()
     ]
 })
-
-# ===============================
-# ALERTAS OPERACIONAIS
-# ===============================
 
 st.divider()
 st.subheader("🔔 ALERTAS OPERACIONAIS")
@@ -240,10 +225,6 @@ with alerta5:
     """, unsafe_allow_html=True)
 
 st.divider()
-
-# ===============================
-# GRÁFICOS
-# ===============================
 
 col_graf1, col_graf2 = st.columns(2)
 
@@ -322,10 +303,6 @@ with col_graf2:
 
 st.divider()
 
-# ===============================
-# PAINEL SEM SM
-# ===============================
-
 st.subheader("🛰️ Painel de viagens SEM SM")
 
 if qtd_viagens_sem_sm > 0:
@@ -349,10 +326,6 @@ else:
 
 st.divider()
 
-# ===============================
-# PAINEL CARROS PARADOS
-# ===============================
-
 st.subheader("🛑 Painel de carros parados")
 
 if qtd_carros_parados > 0:
@@ -373,10 +346,6 @@ else:
     st.success("✅ Nenhum carro parado.")
 
 st.divider()
-
-# ===============================
-# VIAGENS CRÍTICAS
-# ===============================
 
 st.subheader("🚨 VIAGENS CRÍTICAS")
 
@@ -420,10 +389,6 @@ st.dataframe(
 )
 
 st.divider()
-
-# ===============================
-# BASE COMPLETA
-# ===============================
 
 st.subheader("📋 BASE OPERACIONAL COMPLETA")
 
